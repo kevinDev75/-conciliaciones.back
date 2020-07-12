@@ -346,14 +346,15 @@ namespace Protecta.Infrastructure.Data.CuponeraModule.Repositories
             return Task.FromResult<GenerateResponse>(response);
         }
 
-        public Task<DetalleRecibo> PrintCupon(ParametersRecibo parametersRecibo)
+        public Task<GenerateResponse> PrintCupon(PrintCupon paramPrint)
         {
             DetalleRecibo DetailCupon = new DetalleRecibo();
             List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("P_IDTRANSACION", OracleDbType.NVarchar2, parametersRecibo.idTransacion, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("P_NROCUPON", OracleDbType.NVarchar2, parametersRecibo.NroCuponera, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("P_NRORECIBO", OracleDbType.Long, parametersRecibo.NroRecibo, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("C_TABLE", OracleDbType.RefCursor, ParameterDirection.Output));
+            parameters.Add(new OracleParameter("NCUPONERA", OracleDbType.NVarchar2, parametersRecibo.idTransacion, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCUOTA_INI", OracleDbType.NVarchar2, parametersRecibo.NroCuponera, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCUOTA_FIN", OracleDbType.Long, parametersRecibo.NroRecibo, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCOPY", OracleDbType.Long, parametersRecibo.NroRecibo, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("CUR_TOUT", OracleDbType.RefCursor, ParameterDirection.Output));
             using (OracleDataReader dr = (OracleDataReader)_connectionBase.ExecuteByStoredProcedure("PKG_PAYROLL.PA_SEL_BANK", parameters, ConnectionBase.enuTypeDataBase.OracleConciliacion))
             {
                 while (dr.Read())

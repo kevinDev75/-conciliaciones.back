@@ -10,6 +10,7 @@ using Protecta.Application.Service.Dtos.Cuponera;
 using Protecta.Application.Service.Services.CuponeraModule;
 using Protecta.CrossCuting.Log.Contracts;
 using Protecta.CrossCuting.Utilities.Configuration;
+using Protecta.Domain.Service.CuponeraModule.Aggregates.CuponeraAgg;
 
 namespace Protecta.Application.Service.Controllers.Cuponera
 {
@@ -80,11 +81,6 @@ namespace Protecta.Application.Service.Controllers.Cuponera
             var Result = await _cuponeraService.GetInfoCuponeraDetail(parametersReciboDto);
             return Ok(Result);
         }
-
-
-
-
-
         [HttpPost("[action]")]
         public async Task<IActionResult> GetInfoMovimiento([FromBody]ParametersReciboDto parametersReciboDto)
         {
@@ -101,5 +97,14 @@ namespace Protecta.Application.Service.Controllers.Cuponera
             var Result = await _cuponeraService.AnnulmentCupon(parametersReciboDto);
             return Ok(Result);
         }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> PrintCuponera([FromBody]PrintCupon parametersPrint)
+        {
+            _logger.LogInfo("Metodo elimina cupon");
+
+            var Result = await _cuponeraService.PrintCupon(parametersPrint);
+            return Ok(Result);
+        }
+
     }
 }

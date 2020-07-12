@@ -175,7 +175,7 @@ namespace Protecta.Application.Service.Services.CuponeraModule
             return Cupon;
         }
 
-        public async Task<DetalleReciboDto> PrintCupon(ParametersReciboDto parametersRecibo)
+        public async Task<GenerateResponse> PrintCupon(PrintCupon paramPrint)
         {
             DetalleReciboDto Cupon = null;
             try

@@ -131,7 +131,7 @@ namespace Protecta.Infrastructure.Connection
             DataConnection.Open();
             DbDataReader myReader;
 
-            if (((cmdCommand.Parameters.Contains("CUR_COUPONS") ||  cmdCommand.Parameters.Contains("CUR_CUPONERA") ||  cmdCommand.Parameters.Contains("CUR_TREPORTOUT") ||   cmdCommand.Parameters.Contains("RC1") || IsOracleReader(cmdCommand))) && typeExecute == enuTypeExecute.ExecuteReader)
+            if (((cmdCommand.Parameters.Contains("CUR_TOUT") ||  cmdCommand.Parameters.Contains("CUR_COUPONS") ||  cmdCommand.Parameters.Contains("CUR_CUPONERA") ||  cmdCommand.Parameters.Contains("CUR_TREPORTOUT") ||   cmdCommand.Parameters.Contains("RC1") || IsOracleReader(cmdCommand))) && typeExecute == enuTypeExecute.ExecuteReader)
             {
                 myReader = cmdCommand.ExecuteReader(CommandBehavior.CloseConnection);
             }

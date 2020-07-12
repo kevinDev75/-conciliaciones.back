@@ -20,6 +20,6 @@ namespace Protecta.Application.Service.Services.CuponeraModule
 
         Task<DetalleReciboDto> GetInfoMovimiento(ParametersReciboDto parametersRecibo);
         Task<GenerateResponse> AnnulmentCupon(ParametersReciboDto parametersRecibo);
-        Task<DetalleReciboDto> PrintCupon(ParametersReciboDto parametersRecibo);
+        Task<GenerateResponse> PrintCupon(PrintCupon paramPrint);
     }
 }

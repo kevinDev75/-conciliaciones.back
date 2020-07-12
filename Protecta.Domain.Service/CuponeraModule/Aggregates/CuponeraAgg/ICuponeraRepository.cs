@@ -14,15 +14,17 @@ namespace Protecta.Domain.Service.CuponeraModule.Aggregates.CuponeraAgg
         Task<GenerateResponse> GenerateCupon(ParametersRecibo parametersRecibo);
         Task<Recibo> GetInfoCuponera(ParametersRecibo parametersRecibo);
         Task<List<Cupon>> GetInfoCuponeraDetail(ParametersRecibo parametersRecibo);
+        Task<GenerateResponse> PrintCupon(PrintCupon paramPrint);
+
 
 
 
         Task<Recibo> GetInfoCupon(ParametersRecibo parametersRecibo);
         Task<DetalleRecibo> GetInfoMovimiento(ParametersRecibo parametersRecibo);
         Task<GenerateResponse> AnnulmentCupon(ParametersRecibo parametersRecibo);
-        Task<DetalleRecibo> PrintCupon(ParametersRecibo parametersRecibo);
         
 
-        
+
+
     }
 }
