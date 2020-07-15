@@ -12,10 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.Winforms" Version="150.1404.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Protecta.CrossCuting.Reports\Protecta.CrossCuting.Reports.csproj" />
     <ProjectReference Include="..\Protecta.Domain.Interfaces\Protecta.Domain.Interfaces.csproj" />
   </ItemGroup>
 

@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using Protecta.Application.Service.Dtos.Cuponera;
 using Protecta.CrossCuting.Log.Contracts;
+using Protecta.CrossCuting.Reports;
 using Protecta.CrossCuting.Utilities.Configuration;
 using Protecta.Domain.Service.CuponeraModule.Aggregates;
 using Protecta.Domain.Service.CuponeraModule.Aggregates.CuponeraAgg;
@@ -187,8 +188,8 @@ namespace Protecta.Application.Service.Services.CuponeraModule
                 if (ReciboResult == null) return null;
                 template = _mapper.Map<List<TemplateCupon1>>(ReciboResult);
 
-                GenerateReports generate = new GenerateReports();
-                string base64 = generate.GeneratePDF(template[0]);
+                Generate generate = new Generate();
+                string base64 = generate.GeneratePDF(CuponPagoDatatable(template[0]), CuponPagoLugares()) ;
 
                 Cupon = new GenerateResponse() { data = base64 };
                 if (template.Count > 0)
@@ -202,9 +203,41 @@ namespace Protecta.Application.Service.Services.CuponeraModule
             }
             return Cupon;
         }
+        private DataTable CuponPagoDatatable(TemplateCupon1 cupon)
+        {
+            DataTable dt = new DataTable();
+            dt.TableName = "CuponPago";
+            dt.Columns.Add("CONVENIO");
+            dt.Columns.Add("PAGO_NUMERO");
+            dt.Columns.Add("VENCIMIENTO_PAGO");
+            dt.Columns.Add("IMPORTE");
+            DataRow row = dt.NewRow();
+            row["CONVENIO"] = cupon.Convenio;
+            row["PAGO_NUMERO"] = cupon.Cupon;
+            row["VENCIMIENTO_PAGO"] = cupon.FechaVencimiento;
+            row["IMPORTE"] = cupon.Importe.ToString();
+            dt.Rows.Add(row);
+            return dt;
+        }
+        private DataTable CuponPagoLugares()
+        {
+            DataTable dt = new DataTable();
+            dt.TableName = "LugaresPago";
+            dt.Columns.Add("ENTIDAD");
+            dt.Columns.Add("IND_PAG_WEB");
+            dt.Columns.Add("IND_AGE_EXP");
+            dt.Columns.Add("CUENTA_RECAUDA");
+            DataRow row = dt.NewRow();
+            row["ENTIDAD"] = "BBVA CONTINENTAL";
+            row["IND_PAG_WEB"] = "SI";
+            row["IND_AGE_EXP"] = "SI";
+            row["CUENTA_RECAUDA"] = "1213213123";
+            dt.Rows.Add(row);
+            return dt;
+        }
 
 
 
-       
+
     }
 }
