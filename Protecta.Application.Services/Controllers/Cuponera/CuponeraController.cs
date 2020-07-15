@@ -100,7 +100,7 @@ namespace Protecta.Application.Service.Controllers.Cuponera
         [HttpPost("[action]")]
         public async Task<IActionResult> PrintCuponera([FromBody]PrintCupon parametersPrint)
         {
-            _logger.LogInfo("Metodo elimina cupon");
+            _logger.LogInfo("Metodo Print cupon");
 
             var Result = await _cuponeraService.PrintCupon(parametersPrint);
             return Ok(Result);

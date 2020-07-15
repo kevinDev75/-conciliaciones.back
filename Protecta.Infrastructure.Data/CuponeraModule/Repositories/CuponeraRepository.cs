@@ -346,37 +346,43 @@ namespace Protecta.Infrastructure.Data.CuponeraModule.Repositories
             return Task.FromResult<GenerateResponse>(response);
         }
 
-        public Task<GenerateResponse> PrintCupon(PrintCupon paramPrint)
+        public Task<List<TemplateCupon1>> PrintCupon(PrintCupon paramPrint)
         {
-            DetalleRecibo DetailCupon = new DetalleRecibo();
+            List<TemplateCupon1> Template = new List<TemplateCupon1>();
             List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("NCUPONERA", OracleDbType.NVarchar2, parametersRecibo.idTransacion, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("NCUOTA_INI", OracleDbType.NVarchar2, parametersRecibo.NroCuponera, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("NCUOTA_FIN", OracleDbType.Long, parametersRecibo.NroRecibo, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("NCOPY", OracleDbType.Long, parametersRecibo.NroRecibo, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCUPONERA", OracleDbType.Int32, paramPrint.cuponera, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCUOTA_INI", OracleDbType.Int32, paramPrint.cuponInicial, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCUOTA_FIN", OracleDbType.Int32, paramPrint.cuponFinal, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCOPY", OracleDbType.Int32, paramPrint.copias, ParameterDirection.Input));
             parameters.Add(new OracleParameter("CUR_TOUT", OracleDbType.RefCursor, ParameterDirection.Output));
-            using (OracleDataReader dr = (OracleDataReader)_connectionBase.ExecuteByStoredProcedure("PKG_PAYROLL.PA_SEL_BANK", parameters, ConnectionBase.enuTypeDataBase.OracleConciliacion))
+            using (OracleDataReader dr = (OracleDataReader)_connectionBase.ExecuteByStoredProcedure("PKG_CRE_CUPONERA.PRINTCOUPONBOOK1", parameters, ConnectionBase.enuTypeDataBase.OracleVTime))
             {
                 while (dr.Read())
                 {
-                    DetailCupon = new DetalleRecibo
+                    TemplateCupon1 item= new TemplateCupon1()
                     {
-                        NroCupon = (dr["NRO_CUPON"] != null ? Convert.ToString(dr["NRO_CUPON"]) : string.Empty),
-                        Movimiento = (dr["MOVIMIENTO"] != null ? Convert.ToString(dr["MOVIMIENTO"]) : string.Empty),
-                        NroRecibo = (dr["NRO_RECIBO"] != null ? Convert.ToString(dr["NRO_RECIBO"]) : string.Empty),
-                        Fecha = (dr["FECHA"] != null ? Convert.ToString(dr["FECHA"]) : string.Empty),
-                        FechaPago = (dr["FECHA_PAGO"] != null ? Convert.ToString(dr["FECHA_PAGO"]) : string.Empty),
-                        IdTransacion = (dr["ID_TRANSACION"] != null ? Convert.ToString(dr["ID_TRANSACION"]) : string.Empty),
-                        DescTransacion = (dr["DESC_TRANSACION"] != null ? Convert.ToString(dr["DESC_TRANSACION"]) : string.Empty),
-                        MontoCupon = (dr["MONTO_CUPON"] != null ? Convert.ToString(dr["MONTO_CUPON"]) : string.Empty),
-                        IdUsuario = (dr["ID_USUARIO"] != null ? Convert.ToString(dr["ID_USUARIO"]) : string.Empty),
-                        DescUsuario = (dr["DESC_USUARIO"] != null ? Convert.ToString(dr["DESC_USUARIO"]) : string.Empty),
-
+                        IdRamo= (dr[":B17"] != null ? Convert.ToInt32(dr[":B17"]) : 0),
+                        DesRamo = (dr[":B16"] != null ? Convert.ToString(dr[":B16"]) : string.Empty),
+                        IdMoneda = (dr[":B15"] != null ? Convert.ToInt32(dr[":B15"]) : 0),
+                        DesMoneda = (dr[":B14"] != null ? Convert.ToString(dr[":B14"]) : string.Empty),
+                        Policy= (dr[":B13"] != null ? Convert.ToString(dr[":B13"]) : string.Empty),
+                        VigenciaDesde = (dr[":B11"] != null ? Convert.ToString(dr[":B11"]) : string.Empty),
+                        VigenciaHasta = (dr[":B10"] != null ? Convert.ToString(dr[":B10"]) : string.Empty),
+                        Asegurado= (dr[ ":B8"] != null ? Convert.ToString(dr[":B8"]) : string.Empty),
+                        Documento = (dr[":B7"] != null ? Convert.ToString(dr[":B7"]) : string.Empty),
+                        Direccion = (dr[":B6"] != null ? Convert.ToString(dr[":B6"]) : string.Empty),
+                        Convenio= (dr[":B5"] != null ? Convert.ToInt32(dr[":B5"]) : 0),
+                        Intermediario= (dr[":B4"] != null ? Convert.ToString(dr[":B4"]) : string.Empty),
+                        Cuponera = (dr["NCUPONERA"] != null ? Convert.ToString(dr["NCUPONERA"]) : string.Empty),
+                        Cupon= (dr["NCOUPON"] != null ? Convert.ToString(dr["NCOUPON"]) : string.Empty),
+                        FechaVencimiento = (dr["DPAYDATE"] != null ? Convert.ToString(dr["DPAYDATE"]) : string.Empty),
+                        Importe = (dr["NPREMIUM"] != null ? Convert.ToDecimal(dr["NPREMIUM"]) : 0)
                     };
+                    Template.Add(item);
                 }
             }
 
-            return Task.FromResult<DetalleRecibo>(DetailCupon);
+            return Task.FromResult(Template);
         }
 
       

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Protecta.Application.Service.Dtos.Cuponera;
 using Protecta.CrossCuting.Log.Contracts;
 using Protecta.CrossCuting.Utilities.Configuration;
+using Protecta.Domain.Service.CuponeraModule.Aggregates;
 using Protecta.Domain.Service.CuponeraModule.Aggregates.CuponeraAgg;
 
 namespace Protecta.Application.Service.Services.CuponeraModule
@@ -18,7 +20,7 @@ namespace Protecta.Application.Service.Services.CuponeraModule
         private ILoggerManager _logger;
         private IMapper _mapper;
         private readonly Ldap _ldapSettings;
-      
+
 
         public CuponeraService(ICuponeraRepository cuponeraRepository, ILoggerManager logger, IMapper mapper, IOptions<Ldap> ldapSettings)
         {
@@ -53,10 +55,10 @@ namespace Protecta.Application.Service.Services.CuponeraModule
             ReciboDto recibo = new ReciboDto();
             try
             {
-                 GenerateResponse response = new GenerateResponse();
-                 response = await _cuponeraRepository.ValidateRecibo(_mapper.Map<ParametersRecibo>(parameters));
+                GenerateResponse response = new GenerateResponse();
+                response = await _cuponeraRepository.ValidateRecibo(_mapper.Map<ParametersRecibo>(parameters));
 
-                if(response.P_NCODE == 0) {
+                if (response.P_NCODE == 0) {
 
                     var ReciboResult = await _cuponeraRepository.GetInfoRecibo(_mapper.Map<ParametersRecibo>(parameters));
                     if (ReciboResult == null) return null;
@@ -69,7 +71,7 @@ namespace Protecta.Application.Service.Services.CuponeraModule
                 }
 
 
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 _logger.LogError(ex.InnerException.ToString());
             }
@@ -78,7 +80,7 @@ namespace Protecta.Application.Service.Services.CuponeraModule
 
         public async Task<List<CuponDto>> GetInfoCuponPreview(ParametersReciboDto parameters)
         {
-            List<CuponDto> ListCupon= null;
+            List<CuponDto> ListCupon = null;
             try
             {
                 var ReciboResult = await _cuponeraRepository.GetInfoCuponPreview(_mapper.Map<ParametersRecibo>(parameters));
@@ -177,12 +179,22 @@ namespace Protecta.Application.Service.Services.CuponeraModule
 
         public async Task<GenerateResponse> PrintCupon(PrintCupon paramPrint)
         {
-            DetalleReciboDto Cupon = null;
+            GenerateResponse Cupon = null;
+            List<TemplateCupon1> template = null;
             try
             {
-                var ReciboResult = await _cuponeraRepository.PrintCupon(_mapper.Map<ParametersRecibo>(parametersRecibo));
+                var ReciboResult = await _cuponeraRepository.PrintCupon(_mapper.Map<PrintCupon>(paramPrint));
                 if (ReciboResult == null) return null;
-                Cupon = _mapper.Map<DetalleReciboDto>(ReciboResult);
+                template = _mapper.Map<List<TemplateCupon1>>(ReciboResult);
+
+                GenerateReports generate = new GenerateReports();
+                string base64 = generate.GeneratePDF(template[0]);
+
+                Cupon = new GenerateResponse() { data = base64 };
+                if (template.Count > 0)
+                {
+
+                }
             }
             catch (Exception ex)
             {
@@ -190,5 +202,9 @@ namespace Protecta.Application.Service.Services.CuponeraModule
             }
             return Cupon;
         }
+
+
+
+       
     }
 }
