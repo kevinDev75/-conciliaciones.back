@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protecta.Domain.Interfaces"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protecta.Application.Service", "Protecta.Application.Services\Protecta.Application.Service.csproj", "{29CE578F-CCF3-4D75-BCAA-42CE19A43415}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protecta.CrossCuting.Reports", "Protecta.CrossCuting.Reports\Protecta.CrossCuting.Reports.csproj", "{1E3AB368-CBB6-4C80-9C6D-60322A9F604D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,10 +69,6 @@ Global
 		{29CE578F-CCF3-4D75-BCAA-42CE19A43415}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29CE578F-CCF3-4D75-BCAA-42CE19A43415}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29CE578F-CCF3-4D75-BCAA-42CE19A43415}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E3AB368-CBB6-4C80-9C6D-60322A9F604D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E3AB368-CBB6-4C80-9C6D-60322A9F604D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E3AB368-CBB6-4C80-9C6D-60322A9F604D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E3AB368-CBB6-4C80-9C6D-60322A9F604D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,7 +84,6 @@ Global
 		{5E27D890-39E7-4F50-BF84-6ABA9A5816AA} = {DFC54B88-FCF3-4307-B69B-4AA7865FF9EE}
 		{FBBEC84D-ADB8-496A-9496-26C203BA742A} = {DFC54B88-FCF3-4307-B69B-4AA7865FF9EE}
 		{29CE578F-CCF3-4D75-BCAA-42CE19A43415} = {AFC5F778-CF98-49AD-85EF-12DC5F0E7867}
-		{1E3AB368-CBB6-4C80-9C6D-60322A9F604D} = {AB0DF2CA-975F-4FAF-A759-82BB620F2702}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB9A2EE-2F26-41D6-8321-5E17342DCA23}

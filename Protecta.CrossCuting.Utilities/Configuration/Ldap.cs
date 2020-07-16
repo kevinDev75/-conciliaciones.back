@@ -16,5 +16,6 @@ namespace Protecta.CrossCuting.Utilities.Configuration
         public string usernameServidor { get; set; }
         public string Dominio { get; set; }
         public string PasswordServidor { get; set; }
+        public string UrlServicioGestor { get; set; }
     }
 }
