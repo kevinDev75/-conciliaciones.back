@@ -55,7 +55,8 @@ namespace Protecta.Application.Service.Services.ProductoModule
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.InnerException.ToString());
+                ProductoDtos = new List<ProductoDto> { new ProductoDto { DescProducto = ex.Message } };
+                // _logger.LogError(ex.InnerException.ToString());
             }
 
             return ProductoDtos;
