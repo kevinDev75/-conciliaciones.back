@@ -9,5 +9,6 @@ namespace Protecta.Domain.Service.CuponeraModule.Aggregates.CuponeraAgg
         public int P_NCODE { get; set; }
         public string P_SMESSAGE { get; set; }
         public Object data { get; set; }
+        public Object data2 { get; set; }
     }
 }

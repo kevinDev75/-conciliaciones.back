@@ -385,6 +385,46 @@ namespace Protecta.Infrastructure.Data.CuponeraModule.Repositories
             return Task.FromResult(Template);
         }
 
-      
+        public Task<List<TemplateCupon2>> PrintCuponCrono(PrintCupon paramPrint)
+        {
+            List<TemplateCupon2> Template = new List<TemplateCupon2>();
+            List<OracleParameter> parameters = new List<OracleParameter>();
+            parameters.Add(new OracleParameter("NCUPONERA", OracleDbType.Int32, paramPrint.cuponera, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCUOTA_INI", OracleDbType.Int32, paramPrint.cuponInicial, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCUOTA_FIN", OracleDbType.Int32, paramPrint.cuponFinal, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("NCOPY", OracleDbType.Int32, paramPrint.copias, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("CUR_TOUT", OracleDbType.RefCursor, ParameterDirection.Output));
+            using (OracleDataReader dr = (OracleDataReader)_connectionBase.ExecuteByStoredProcedure("PKG_CRE_CUPONERA.PRINTCOUPONBOOK2", parameters, ConnectionBase.enuTypeDataBase.OracleVTime))
+            {
+                while (dr.Read())
+                {
+                    TemplateCupon2 item = new TemplateCupon2()
+                    {
+                        DesRamo = (dr[":B19"] != null ? Convert.ToString(dr[":B19"]) : string.Empty),
+                        Poliza = (dr[":B18"] != null ? Convert.ToString(dr[":B18"]) : string.Empty),
+                        VigenciaDesde = (dr[":B16"] != null ? Convert.ToDateTime(dr[":B16"]).ToString("dd/MM/yyyy") : string.Empty),
+                        VigenciaHasta = (dr[":B15"] != null ? Convert.ToDateTime(dr[":B15"]).ToString("dd/MM/yyyy") : string.Empty),
+                        Moneda = (dr[":B13"] != null ? Convert.ToString(dr[":B13"]) : string.Empty),
+                        ModalidadPago = (dr[":B12"] != null ? Convert.ToString(dr[":B12"]) : string.Empty),
+                        Fecha = (dr[":B9"] != null ? Convert.ToDateTime(dr[":B9"]).ToString("DD/MM/YYYY") : string.Empty),
+                        Nombres = (dr[":B7"] != null ? Convert.ToString(dr[":B7"]) : string.Empty),
+                        NroDocumento = (dr[":B6"] != null ? Convert.ToString(dr[":B6"]) : string.Empty),
+                        Direccion = (dr["L_NINTERMED"] != null ? Convert.ToString(dr["L_NINTERMED"]) : string.Empty),
+                        NroCupon = (dr["NCOUPON"] != null ? Convert.ToString(dr["NCOUPON"]) : string.Empty),
+                        NroRecibo = (dr["NRECEIPT"] != null ? Convert.ToString(dr["NRECEIPT"]) : string.Empty),
+                        Vencimiento = (dr["DPAYDATE"] != null ? Convert.ToDateTime(dr["DPAYDATE"]).ToString("dd/MM/yyyy") : string.Empty),
+                        Interes = "0",
+                        Importe = (dr["NPREMIUM"] != null ? Convert.ToString(dr["NPREMIUM"]) : string.Empty),
+                        NroPago = (dr["NCUPONERA"] != null ? Convert.ToString(dr["NCUPONERA"]) : string.Empty),
+                        
+                    };
+                    Template.Add(item);
+                }
+            }
+
+            return Task.FromResult(Template);
+        }
     }
 }
+
+

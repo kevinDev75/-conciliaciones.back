@@ -15,6 +15,7 @@ namespace Protecta.Domain.Service.CuponeraModule.Aggregates.CuponeraAgg
         Task<Recibo> GetInfoCuponera(ParametersRecibo parametersRecibo);
         Task<List<Cupon>> GetInfoCuponeraDetail(ParametersRecibo parametersRecibo);
         Task<List<TemplateCupon1>> PrintCupon(PrintCupon paramPrint);
+        Task<List<TemplateCupon2>> PrintCuponCrono(PrintCupon paramPrint);
 
 
 

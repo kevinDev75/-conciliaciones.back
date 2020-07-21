@@ -190,6 +190,21 @@ namespace Protecta.Application.Service.Services.CuponeraModule
 
                 Cupon = 
                 ConsumeService<GenerateResponse, List<TemplateCupon1>>.PostRequest(_ldapSettings.UrlServicioGestor, "Report/GenerateReport", template);
+                if(Cupon.P_NCODE == 0 && paramPrint.flgCronograma)
+                {
+                    GenerateResponse cronoResponse = null;
+                    List<TemplateCupon2> ListCronograma = new List<TemplateCupon2>();
+                    var Cronograma = await _cuponeraRepository.PrintCuponCrono(_mapper.Map<PrintCupon>(paramPrint));
+                    ListCronograma = _mapper.Map<List<TemplateCupon2>>(Cronograma);
+                    cronoResponse =
+                    ConsumeService<GenerateResponse, List<TemplateCupon2>>.PostRequest(_ldapSettings.UrlServicioGestor, "Report/GenerateReportCrono", ListCronograma);
+                    if(cronoResponse.P_NCODE == 0)
+                    {
+                        Cupon.data2= cronoResponse.data;
+                    }
+                    
+                }
+
             }
             catch (Exception ex)
             {
