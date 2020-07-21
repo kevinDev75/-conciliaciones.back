@@ -406,7 +406,7 @@ namespace Protecta.Infrastructure.Data.CuponeraModule.Repositories
                         VigenciaHasta = (dr[":B15"] != null ? Convert.ToDateTime(dr[":B15"]).ToString("dd/MM/yyyy") : string.Empty),
                         Moneda = (dr[":B13"] != null ? Convert.ToString(dr[":B13"]) : string.Empty),
                         ModalidadPago = (dr[":B12"] != null ? Convert.ToString(dr[":B12"]) : string.Empty),
-                        Fecha = (dr[":B9"] != null ? Convert.ToDateTime(dr[":B9"]).ToString("DD/MM/YYYY") : string.Empty),
+                        Fecha = (dr[":B9"] != null ? Convert.ToDateTime(dr[":B9"]).ToString("dd/MM/yyyy") : string.Empty),
                         Nombres = (dr[":B7"] != null ? Convert.ToString(dr[":B7"]) : string.Empty),
                         NroDocumento = (dr[":B6"] != null ? Convert.ToString(dr[":B6"]) : string.Empty),
                         Direccion = (dr["L_NINTERMED"] != null ? Convert.ToString(dr["L_NINTERMED"]) : string.Empty),
